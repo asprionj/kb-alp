@@ -4,11 +4,11 @@ Kanboard 1.2.7. First, get this repository as a tar.gz:
 ```
 apk udpate
 apk add curl
-cd /temp
+cd /tmp
 curl -sL -o kb-alp.tar.gz https://github.com/asprionj/kb-alp/tarball/master
 tar -xvzf kb-alp.tar.gz
 ```
 Then, just run the setup script:
 ```
-sh kb-alp/setup.sh
+sh asprionj-kb-alp-*/setup.sh
 ```

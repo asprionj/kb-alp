@@ -3,9 +3,10 @@
 # assuming Git-repo has been unpacked in /tmp
 cd /tmp
 
-# add APK-repositories configuration file
+# add APK-repositories configuration file after backing up default one
 # --> make sure to include a community one
-mv kb-alp/etc/apk/repositories /etc/apk/repositories
+mv /etc/apk/repositories /etc/apk/repositories.BAK
+mv asprionj-kb-alp-*/etc/apk/repositories /etc/apk/repositories
 
 # install packages, remove cache (command as in Dockerfile)
 apk update && \
