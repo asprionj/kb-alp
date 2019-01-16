@@ -1,6 +1,6 @@
-#!/bin/bash 
+#!/bin/bash
 
-# assuming Git-repo has been unpacked in /tmp
+# assuming git-repo has been unpacked in /tmp
 cd /tmp
 
 # add APK-repositories configuration file after backing up default one
@@ -26,14 +26,40 @@ curl -sL -o kb.zip https://github.com/kanboard/kanboard/archive/v1.2.7.zip \
     && cd /tmp \
     && rm -rf /tmp/kanboard-* /tmp/*.zip
 
-# make directories (volumes in Dockerfile)
-mkdir /var/www/app/data
-mkdir /var/www/app/plugins
+# make SSL directory for nginx
 mkdir /etc/nginx/ssl
 
 # copy configuration files (similar to the "ADD docker/ /" command)
-# TODO
+mv asprionj-kb-alp-*/etc/crontabs/nginx /etc/crontabs/
 
-# create symlink to entrypoint
-# cd /root
-# ln -s start.sh /usr/local/bin/entrypoint.sh
+mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.BAK
+mv asprionj-kb-alp-*/etc/nginx/nginx.conf /etc/nginx/
+
+mv /etc/php7/php-fpm.conf /etc/php7/php-fpm.conf.BAK
+mv asprionj-kb-alp-*/etc/php7/php-fpm.conf /etc/php7/
+mv asprionj-kb-alp-*/etc/php7/conf.d/local.ini /etc/php7/conf.d/
+mv asprionj-kb-alp-*/etc/php7/php-fpm.d/env.conf /etc/php7/php-fpm.d/
+
+mv asprionj-kb-alp-*/etc/services.d /etc/
+
+mv asprionj-kb-alp-*/usr/local/bin/entrypoint.sh /usr/local/bin/
+
+mv asprionj-kb-alp-*/var/www/app/config.php /var/www/app/
+
+# remove unpacked git-repo
+rm -r asprionj-kb-alp-*
+
+# make stuff executable (why aren't they already?!?)
+chmod ugo+x /etc/services.d/.s6-svscan/finish
+chmod ugo+x /etc/services.d/cron/run
+chmod ugo+x /etc/services.d/nginx/run
+chmod ugo+x /etc/services.d/php/run
+
+# create symlink to entrypoint in /root
+cd /root
+ln -s /usr/local/bin/entrypoint.sh start.sh
+
+
+
+
+
